@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html ng-app="calculoHoraExtra" ng-controller="horaExtraController">
+<head lang="pt-BR">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css"/>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/controllers/horaExtraController.js"></script>
+    <script src="directives/directiveContatoPessoal.js"></script>
+    <script src="js/lib/angular-locale_pt-br.js"></script>
+    <meta charset="UTF-8">
+    <title>{{app.header}}</title>
+</head>
+<body>
+<div class="container col-sm-10 col-sm-offset-1">
+    <form name="horaExtraForm">
+        <div class="panel panel-default panel-primary">
+            <div class="panel-heading">
+                <h4 class="panel-title" style="font-weight: bold">:: Cálculo de hora extra ::</h4>
+            </div>
+
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Salário bruto</label>
+                            <input type="number" class="form-control input-sm" ng-model="funcionario.salarioBruto"
+                                   placeholder="Informe o salário bruto" title="Informe o salário bruto"/>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <label>Jornada de trabalho</label><label class="text-muted">(h)</label>
+                        <input type="number" class="form-control input-sm" ng-model="funcionario.jornadaTrabalho"
+                               placeholder="Informe a jornada de trabalho" title="Informe a jornada de trabalho"/>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <fieldset>
+                            <legend class="text-muted text-info">Segunda/Sábado</legend>
+                            <div class="form-group col-sm-6">
+                                <label>Hora extra</label><label class="text-muted">(h)</label>
+                                <input type="number" class="form-control input-sm"
+                                       ng-model="funcionario.horas.extras.semanal"
+                                       placeholder="Horas extras" title="Infome os minutos de hora extra"/>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label>Adicional noturno</label><label class="text-muted">(h)</label>
+                                <input type="number" class="form-control input-sm"
+                                       ng-model="funcionario.horas.adicionalNoturno.semanal"
+                                       placeholder="Horas de AD" title="Infome as horas de adicional noturno"/>
+                            </div>
+
+                        </fieldset>
+                    </div>
+                    <div class="col-sm-6">
+                        <fieldset>
+                            <legend class="text-muted text-info">Domingo/Feriado</legend>
+                            <div class="form-group col-sm-6">
+                                <label>Hora extra</label><label class="text-muted">(h)</label>
+                                <input type="number" class="form-control input-sm"
+                                       ng-model="funcionario.horas.extras.domingo"
+                                       placeholder="Horas extras" title="Infome as horas extras"/>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label>Adicional noturno</label><label class="text-muted">(h)</label>
+                                <input type="number" class="form-control input-sm"
+                                       ng-model="funcionario.horas.adicionalNoturno.domingo"
+                                       placeholder="Horas de AD" title="Infome as horas de adicional noturno"/>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+
+                <hr>
+                <div class="row pull-right">
+                    <div class="col-sm-12">
+                        <button class="btn btn-primary" ng-click="calcularHE()" style="font-weight: bold">
+                            Calcular
+                        </button>
+                        <button class="btn btn-danger" ng-click="limparFormulario()" style="font-weight: bold">
+                            Limpar
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row col-sm-12" ng-if="funcionario.exibirResultado">
+                       <h3>Resultado</h3>
+                        <div class="col-sm-6">
+                            <fieldset>
+                                <legend class="text-muted">Segunda/Sábado</legend>
+                                <div class="col-sm-6">
+                                    <span class="label label-default">
+                                        Valor da hora extra {{funcionario.valorHoraExtra | currency :'R$' }}
+                                    </span>
+                                    <span class="label label-success">
+                                        A receber {{funcionario.valorTotalHESemanal | currency :'R$' }}
+                                    </span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <span class="label label-default">
+                                        Valor do adicional noturno {{funcionario.valorHoraAD | currency : 'R$'}}
+                                    </span>
+                                    <span class="label label-success">
+                                        A receber {{funcionario.valorTotalADSemanal | currency :'R$' }}
+                                    </span>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="col-sm-6">
+                            <fieldset>
+                                <legend class="text-muted">Domingo/Feriado</legend>
+                                <div class="col-sm-6">
+                                    <span class="label label-default">
+                                        Valor da hora extra {{funcionario.valorHoraExtraDomingo | currency :'R$' }}
+                                    </span>
+                                    <span class="label label-success">
+                                        A receber {{funcionario.valorTotalHEDomingo | currency :'R$' }}
+                                    </span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <span class="label label-default text-muted">
+                                        Valor do adicional noturno {{funcionario.valorHoraADDomingo | currency :'R$' }}
+                                    </span>
+                                    <span class="label label-success text-muted">
+                                        A receber {{funcionario.valorTotalADDomingo | currency :'R$' }}
+                                    </span>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="row col-sm-12 text-right text-info" style="margin-top: 5px;">
+                            <label>Total bruto</label> {{funcionario.valorTotal | currency :'R$' }}
+                        </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <directive-contato-pessoal></directive-contato-pessoal>
+</div>
+</body>
+</html>

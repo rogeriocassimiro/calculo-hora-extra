@@ -1,0 +1,33 @@
+{
+  "name": "calculo-hora-extra",
+  "version": "0.0.1",
+  "authors": [
+    {
+      "name": "Rogério Cassimiro <rogerioinhumas@gmail.com>",
+      "email": "rogerioinhumas@gmail.com"
+    }
+  ],
+  "description": "Cálculo de hora extra utilizando angularjs",
+  "main": "js/app.js",
+  "moduleType": [
+    "node"
+  ],
+  "keywords": [
+    "hora extra",
+    "salário"
+  ],
+  "license": "MIT",
+  "homepage": "http://github.com/rogeriocassimiro",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.3",
+    "bootstrap": "~3.3.5",
+    "font-awesome": "~4.4.0"
+  }
+}
